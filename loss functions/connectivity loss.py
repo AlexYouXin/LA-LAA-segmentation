@@ -39,7 +39,7 @@ def index_LA(LA):
 # target: GT
 class the_connectivity_loss(nn.module):
     def __init__(self, n_classes, scale=20):
-        super(DiceLoss, self).__init__()
+        super(the_connectivity_loss, self).__init__()
         self.n_classes = n_classes
         self.scale = scale
 
