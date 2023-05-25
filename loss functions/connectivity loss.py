@@ -37,7 +37,7 @@ def index_LA(LA):
 
 # input: after softmax and argmax
 # target: GT
-class the_connectivity_loss(nn.module):
+class the_connectivity_loss(nn.Module):
     def __init__(self, n_classes, scale=20):
         super(the_connectivity_loss, self).__init__()
         self.n_classes = n_classes
