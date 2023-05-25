@@ -58,7 +58,7 @@ class the_connectivity_loss(nn.module):
             if count > 200:
                 distance_matrix, indices = torch.sort(distance_matrix)
                 distance_matrix[torch.int(count * 0.005):] = 0
-				index = index[indices]
+	    index = index[indices]
 
             # max_distance = torch.max(distance_matrix)
             max_distance_index = torch.argmax(distance_matrix)
