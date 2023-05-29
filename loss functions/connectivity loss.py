@@ -28,6 +28,17 @@ def cdist(x, y):
     distances = torch.sum(differences**2, -1).sqrt()
     return distances
 
+# to record the index of each voxel point
+def fixed_index(obj):
+    z, y, x = obj.size()
+    index_tensor = torch.zeros((3, z, y, x))
+    for i in range(z):
+	for j in range(y):
+            for k in range(x):
+	        index_tensor[:, i, j, k] = torch.tensor((i, j, k))
+    return index_tensor
+		
+		
 # To localize the LA and LAA respectively
 # count: number of voxels in LAA
 def locate_LA_LAA(input):
@@ -47,17 +58,10 @@ def locate_LA_LAA(input):
 def centroid_calculate_LAA(LAA):
 
     count = torch.count_nonzero(LAA)
-    # index = torch.nonzero(LAA)
-    # sum by coloumn directions
-    # centroid = torch.sum(index, 0) / count
-	
-    z, y, x = LAA.size()
-    index_tensor = torch.zeros((3, z, y, x))
-    for i in range(z):
-	for j in range(y):
-            for k in range(x):
-	        index_tensor[:, i, j, k] = torch.tensor((i, j, k))
-    centroid = torch.mean(index_tensor * LAA, dim=(1, 2, 3))
+    index_tensor = fixed_index(LAA)
+    index_tensor = index_tensor * LAA    
+    centroid = torch.sum(index_tensor, dim=(1, 2, 3)) / count
+    index
     return centroid, index
 
 
