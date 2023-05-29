@@ -131,9 +131,9 @@ class the_connectivity_loss(nn.Module):
 	    max_distance_value, max_distance_index = torch.max(distance_matrix)
 
             # vertex
-            vertex_z = index[max_distance_index][0]
-            vertex_y = index[max_distance_index][1]
-            vertex_x = index[max_distance_index][2]
+            vertex_z = index[max_distance_index, 0]
+            vertex_y = index[max_distance_index, 1]
+            vertex_x = index[max_distance_index, 2]
 
             # each coordinate of centroid
             centroid_z = centroid[0]
