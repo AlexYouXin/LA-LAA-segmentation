@@ -66,7 +66,9 @@ def centroid_calculate_LAA(LAA):
 
 
 def index_LA(LA):
-    index = torch.nonzero(LA)
+    index_tensor = fixed_index(LA)
+    index_tensor = index_tensor * LAA
+    index = index_tensor.flatten(1).transpose(-1, -2)
     return index
 
 def averaged_hausdorff_distance(set1, set2, max_ahd=np.inf):
