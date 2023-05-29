@@ -61,7 +61,7 @@ def centroid_calculate_LAA(LAA):
     index_tensor = fixed_index(LAA)
     index_tensor = index_tensor * LAA    
     centroid = torch.sum(index_tensor, dim=(1, 2, 3)) / count
-    index
+    index = index_tensor.flatten(1).transpose(-1, -2)
     return centroid, index
 
 
