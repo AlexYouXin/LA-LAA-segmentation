@@ -3,14 +3,20 @@ import torch
 from medpy import metric
 from scipy.ndimage import zoom
 import torch.nn as nn
+import torch.nn.functional as F
 import SimpleITK as sitk
 import cv2
 import time
 import os
+from tqdm import tqdm
 from sklearn.metrics.pairwise import pairwise_distances
 from sklearn.neighbors.kde import KernelDensity
 import skimage.io
 
+
+
+# To localize the LA and LAA respectively
+# count: number of voxels in LAA
 def locate_LA_LAA(input):
     input = input[0]
     LAA = torch.zeros_like(input)
