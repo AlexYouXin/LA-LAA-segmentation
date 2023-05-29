@@ -57,6 +57,7 @@ def centroid_calculate_LAA(LAA):
 	for j in range(y):
             for k in range(x):
 	        index_tensor[:, i, j, k] = torch.tensor((i, j, k))
+    centroid = torch.mean(index_tensor * LAA, dim=(1, 2, 3))
     return centroid, index
 
 
