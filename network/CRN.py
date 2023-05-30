@@ -55,28 +55,6 @@ class Conv3dbn(nn.Sequential):
 
 
 
-class BPB(nn.Sequential):
-    def __init__(self, in_channel=3):
-        super(BPB, self).__init__()
-        self.conv1 = Conv3dReLU(in_channel, in_channel, kernel_size=3, padding=1, dilation=1)
-        self.conv2 = Conv3dReLU(in_channel, in_channel, kernel_size=3, padding=2, dilation=2)
-        self.conv3 = Conv3dReLU(in_channel, in_channel, kernel_size=3, padding=4, dilation=4)
-        self.conv4 = Conv3dReLU(in_channel, in_channel, kernel_size=3, padding=6, dilation=6)
-        
-        self.conv = Conv3dbn(4 * in_channel, in_channel, kernel_size=1, padding=0, dilation=1)
-        self.sigmoid = nn.Sigmoid()
-        
-    def forward(self, feature):
-        f1 = self.conv1(feature)
-        f2 = self.conv2(feature)
-        f3 = self.conv3(feature)
-        f4 = self.conv4(feature)
-        f = torch.cat((f1, f2, f3, f4), 1)
-        attention = self.sigmoid(self.conv(f))
-        feature = feature + attention * feature
-        return feature
-
-
 class network(nn.Module):
     def __init__(self, in_channel=2, out_channel=3):
         super(network, self).__init__()
