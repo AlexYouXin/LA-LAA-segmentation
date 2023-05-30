@@ -59,13 +59,9 @@ class network(nn.Module):
     def __init__(self, in_channel=2, out_channel=3):
         super(network, self).__init__()
         hidden_dim = 16
-        self.bpb1 = BPB(hidden_dim)
         self.conv1 = Conv3dReLU(hidden_dim, hidden_dim * 2, kernel_size=3, padding=1, stride=2, dilation=1)
-        self.bpb2 = BPB(hidden_dim * 2)
         self.conv2 = Conv3dReLU(hidden_dim * 2, hidden_dim * 4, kernel_size=3, padding=1, stride=2, dilation=1)
-        self.bpb3 = BPB(hidden_dim * 4)
         self.conv3 = Conv3dReLU(hidden_dim * 4, hidden_dim * 8, kernel_size=3, padding=1, stride=2, dilation=1)
-        
         self.conv4 = Conv3dReLU(hidden_dim * 8, hidden_dim * 8, kernel_size=3, padding=1, stride=1, dilation=1)
         
         self.conv = Conv3dbn(in_channel, hidden_dim, kernel_size=3, padding=1, dilation=1)
@@ -78,15 +74,12 @@ class network(nn.Module):
         
     def forward(self, x):
         x = self.conv(x)
-        x = self.bpb1(x)
         x = self.conv1(x)
         skip1 = x
         
-        x = self.bpb2(x)
         x = self.conv2(x)
         skip2 = x
         
-        x = self.bpb3(x)
         x = self.conv3(x)
         skip3 = x
         
@@ -106,17 +99,6 @@ class network(nn.Module):
         x = self.segmentation_head(x)
         return x
         
-
-class edge_correction(nn.Module):
-    def __init__(self, in_channel=3):
-        super(edge_correction, self).__init__()
-        self.conv1 = Conv3dReLU(in_channel, in_channel, kernel_size=3, padding=1)
-        self.conv2 = Conv3dbn(in_channel, in_channel, kernel_size=3, padding=1)
-        self.sigmoid = nn.Sigmoid()
-    def forward(self, x):
-        attention = self.sigmoid(self.conv2(self.conv1(x)))
-        x = x + attention * x
-        return x
 
 class UNet(nn.Module):
     def __init__(self, in_channel=3, out_channel=2, training=True):
@@ -222,6 +204,4 @@ class UNet(nn.Module):
         
         out = self.segmentation_head(out)
         return out
-        
-        
         
