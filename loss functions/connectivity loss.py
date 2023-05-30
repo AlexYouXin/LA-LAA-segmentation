@@ -32,10 +32,20 @@ def cdist(x, y):
 def fixed_index(obj):
     z, y, x = obj.size()
     index_tensor = torch.zeros((3, z, y, x))
+    '''
     for i in range(z):
 	for j in range(y):
             for k in range(x):
 	        index_tensor[:, i, j, k] = torch.tensor((i, j, k))
+    '''
+    x_list = torch.arange(0, x)
+    y_list = torch.arange(0, y)
+    z_list = torch.arange(0, z)
+    corr = torch.meshgrid(z_list, y_list, x_list)
+    # print(corr[0])
+    # print(corr[1])
+    # print(corr[2])
+    a = torch.stack([corr[1], corr[0], corr[2]], dim=0)
     return index_tensor
 		
 		
