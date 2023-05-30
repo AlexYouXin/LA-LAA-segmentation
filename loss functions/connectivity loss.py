@@ -45,7 +45,7 @@ def fixed_index(obj):
     # print(corr[0])
     # print(corr[1])
     # print(corr[2])
-    a = torch.stack([corr[1], corr[0], corr[2]], dim=0)
+    a = torch.stack([corr[0], corr[1], corr[2]], dim=0)
     return index_tensor
 		
 		
