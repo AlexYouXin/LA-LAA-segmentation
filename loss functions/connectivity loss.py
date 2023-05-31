@@ -109,27 +109,27 @@ class the_connectivity_loss(nn.Module):
 
     def forward(self, inputs, target):
         b, L, H, W = inputs.size()
-	loss = 0.0
-	for i range(b):
-        LAA, LA, count = locate_LA_LAA(inputs[i])
+    	loss = 0.0
+    	for i range(b):
+            LAA, LA, count = locate_LA_LAA(inputs[i])
 
-        if count == 0:
-            return 0
-        else:
-            # calculate centroid of LAA
-            centroid, index = centroid_calculate(LAA)     
-            # centroid: # [[a, b, c]], 1 * 3
-            # index: count * 3
-            distance_matrix = pairwise_distances(centroid, index, metric='euclidean')
-            if count > 200:
-                distance_matrix, indices = torch.sort(distance_matrix)
-                distance_matrix[torch.int(count * 0.005):] = 0
-            
-	    index = index[indices]
-	    max_distance_value, max_distance_index = torch.max(distance_matrix)
+            if count == 0:
+                return 0
+            else:
+                # calculate centroid of LAA
+                centroid, index = centroid_calculate(LAA)     
+                # centroid: # [[a, b, c]], 1 * 3
+                # index: count * 3
+                distance_matrix = pairwise_distances(centroid, index, metric='euclidean')
+                if count > 200:
+                    distance_matrix, indices = torch.sort(distance_matrix)
+                    distance_matrix[torch.int(count * 0.005):] = 0
+                
+    	    index = index[indices]
+    	    max_distance_value, max_distance_index = torch.max(distance_matrix)
 
             # vertex
-	    # index reused in tensor -> differentiable
+    	    # index reused in tensor -> differentiable
             vertex_z = index[max_distance_index, 0]
             vertex_y = index[max_distance_index, 1]
             vertex_x = index[max_distance_index, 2]
@@ -171,4 +171,5 @@ class the_connectivity_loss(nn.Module):
             min_distance_4 = torch.min(distance_LA_4)
 
             c_loss = torch.sigmoid((min_distance_1 + min_distance_2 +min_distance_3 + min_distance_4) / self.scale) - 0.5
-            return c_loss
+            loss += c_loss
+        return loss
