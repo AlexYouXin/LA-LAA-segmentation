@@ -80,7 +80,7 @@ def index_LA(LA):
     LA_index = index_tensor.flatten(1).transpose(-1, -2)
     return LA_index
 
-# inputs: hard label, 0 or 1
+# inputs: hard label
 # target: GT
 class the_connectivity_loss(nn.Module):
     def __init__(self, n_classes, scale=20):
