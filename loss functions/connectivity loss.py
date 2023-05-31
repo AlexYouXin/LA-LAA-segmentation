@@ -53,10 +53,9 @@ def fixed_index(obj):
 # count: number of voxels in LAA
 def locate_LA_LAA(input):
     '''
-    Input: 
-    Output: 
+    Input: input
+    Output: LAA, LA, count
     '''
-    input = input[0]
     LAA = torch.zeros_like(input)
     LAA[input == 1] = 1
     count = torch.count_nonzero(LAA)
