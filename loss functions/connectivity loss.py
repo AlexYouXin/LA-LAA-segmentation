@@ -65,20 +65,6 @@ def locate_LA_LAA(input):
 
     return LAA, LA, count
 
-def del_tensor_zero_row(index_):
-    idx = torch.all(index_[:, :] == 0, axis=1)
-    index=[]
-    for i in range(idx.shape[0]):
-        if not idx[i].item():
-            index.append(i)
-
-    index=torch.tensor(index)
-    # index reused in tensor -> differentiable
-    index_ = torch.index_select(index_, 0, index)
-    return index_
-
-
-
 def centroid_calculate_LAA(LAA):
     # tensor calculation -> differentiable
     count = torch.count_nonzero(LAA)
@@ -86,7 +72,6 @@ def centroid_calculate_LAA(LAA):
     index_tensor = index_tensor * LAA    
     centroid = torch.sum(index_tensor, dim=(1, 2, 3)) / count
     LAA_index = index_tensor.flatten(1).transpose(-1, -2)
-    LAA_index = del_tensor_zero_row(LAA_index)
     return centroid, LAA_index
 
 
@@ -94,7 +79,6 @@ def index_LA(LA):
     index_tensor = fixed_index(LA)
     index_tensor = index_tensor * LAA
     LA_index = index_tensor.flatten(1).transpose(-1, -2)
-    LA_index = del_tensor_zero_row(LA_index)
     return LA_index
 
 
