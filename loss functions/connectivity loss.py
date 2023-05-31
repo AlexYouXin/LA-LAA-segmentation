@@ -81,9 +81,6 @@ def index_LA(LA):
     LA_index = index_tensor.flatten(1).transpose(-1, -2)
     return LA_index
 
-
-
-# input: after softmax and argmax
 # target: GT
 class the_connectivity_loss(nn.Module):
     def __init__(self, n_classes, scale=20):
