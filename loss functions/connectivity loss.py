@@ -109,7 +109,9 @@ class the_connectivity_loss(nn.Module):
 
     def forward(self, inputs, target):
         b, L, H, W = inputs.size()
-        LAA, LA, count = locate_LA_LAA(inputs)
+	loss = 0.0
+	for i range(b):
+        LAA, LA, count = locate_LA_LAA(inputs[i])
 
         if count == 0:
             return 0
