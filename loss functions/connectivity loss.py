@@ -105,8 +105,8 @@ class the_connectivity_loss(nn.Module):
                 if count > 200:
                     distance_matrix, indices = torch.sort(distance_matrix)
                     distance_matrix[torch.int(count * 0.005):] = 0
-	index = index[indices]
-	max_distance_value, max_distance_index = torch.max(distance_matrix)
+		index = index[indices]
+		max_distance_value, max_distance_index = torch.max(distance_matrix)
 
             # vertex
     	    # index reused in tensor -> differentiable
