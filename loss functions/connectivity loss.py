@@ -95,7 +95,7 @@ class the_connectivity_loss(nn.Module):
             LAA, LA, count = locate_LA_LAA(inputs[i])
 
             if count == 0:
-                return 0
+                loss += 0.0
             else:
                 # calculate centroid of LAA
                 centroid, index = centroid_calculate(LAA)     
@@ -106,8 +106,8 @@ class the_connectivity_loss(nn.Module):
                     distance_matrix, indices = torch.sort(distance_matrix)
                     distance_matrix[torch.int(count * 0.005):] = 0
                 
-    	    	index = index[indices]
-    	    	max_distance_value, max_distance_index = torch.max(distance_matrix)
+	    index = index[indices]
+	    max_distance_value, max_distance_index = torch.max(distance_matrix)
 
             # vertex
     	    # index reused in tensor -> differentiable
@@ -153,4 +153,4 @@ class the_connectivity_loss(nn.Module):
 
             c_loss = torch.sigmoid((min_distance_1 + min_distance_2 +min_distance_3 + min_distance_4) / self.scale) - 0.5
             loss += c_loss
-        return loss
+return loss
